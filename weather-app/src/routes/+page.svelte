@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Measurement from "../lib/Measurement.svelte";
+  import Measurement from "$lib/Measurement.svelte";
 </script>
 
 <div class="flex justify-center gap-10">
