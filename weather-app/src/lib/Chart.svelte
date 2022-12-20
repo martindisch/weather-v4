@@ -1,7 +1,8 @@
 <script lang="ts">
+  // @ts-ignore
   import * as Pancake from "@sveltejs/pancake";
-  import csv from "./data.js";
   import { decimateHourly } from "$lib/decimation";
+  import csv from "$lib/data.js";
 
   const points = csv.split("\n").map((str) => {
     const [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
