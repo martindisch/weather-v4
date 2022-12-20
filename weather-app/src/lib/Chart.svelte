@@ -37,7 +37,7 @@
 
     <Pancake.Grid vertical count={8} let:value>
       <div class="grid-line vertical" />
-      <span class="year-label">{new Date(value).toLocaleTimeString()}</span>
+      <span class="label">{new Date(value).toLocaleTimeString()}</span>
     </Pancake.Grid>
 
     <Pancake.Svg>
@@ -95,7 +95,7 @@
     color: #999;
   }
 
-  .year-label {
+  .label {
     position: absolute;
     width: 4em;
     left: -2em;
