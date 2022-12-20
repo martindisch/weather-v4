@@ -46,18 +46,6 @@
       </Pancake.SvgLine>
     </Pancake.Svg>
 
-    <!-- chart legend -->
-    <Pancake.Point x={1662354000000} y={15}>
-      <div class="text">
-        <p>
-          <span style="color: red">—</span>
-          <span>temperature&nbsp;&nbsp;&nbsp;</span>
-          <span style="color: blue">—</span>
-          <span>humidity</span>
-        </p>
-      </div>
-    </Pancake.Point>
-
     <Pancake.Quadtree data={points} x={(d) => d.date} y={(d) => d.temperature} let:closest>
       {#if closest}
         <Pancake.Point x={closest.date} y={closest.temperature} let:d>
@@ -116,23 +104,6 @@
     font-size: 14px;
     color: #999;
     text-align: center;
-  }
-
-  .text {
-    position: absolute;
-    width: 15em;
-    line-height: 1;
-    color: #666;
-    transform: translate(0, -50%);
-    text-shadow: 0 0 8px white, 0 0 8px white, 0 0 8px white, 0 0 8px white, 0 0 8px white,
-      0 0 8px white, 0 0 8px white, 0 0 8px white, 0 0 8px white, 0 0 8px white, 0 0 8px white,
-      0 0 8px white, 0 0 8px white;
-  }
-
-  .text p {
-    margin: 0;
-    line-height: 1.2;
-    color: #999;
   }
 
   path.trend {
