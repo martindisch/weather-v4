@@ -1,26 +1,31 @@
 <script>
   import * as Pancake from "@sveltejs/pancake";
   import csv from "./data.js";
+  import { decimateHourly } from "$lib/decimation";
 
   const points = csv.split("\n").map((str) => {
     let [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
     return { date: new Date(timestamp * 1000), temperature, humidity };
   });
 
-  let minx = points[0].date;
-  let maxx = points[points.length - 1].date;
+  const decimatedTemperature = decimateHourly(
+    points.map((point) => ({ date: point.date, value: point.temperature }))
+  );
+
+  let minx = decimatedTemperature[0].date;
+  let maxx = decimatedTemperature[decimatedTemperature.length - 1].date;
   let miny = +Infinity;
   let maxy = -Infinity;
 
-  for (let i = 0; i < points.length; i += 1) {
-    const point = points[i];
+  for (let i = 0; i < decimatedTemperature.length; i += 1) {
+    const point = decimatedTemperature[i];
 
-    if (point.temperature < miny) {
-      miny = point.temperature;
+    if (point.value < miny) {
+      miny = point.value;
     }
 
-    if (point.temperature > maxy) {
-      maxy = point.temperature;
+    if (point.value > maxy) {
+      maxy = point.value;
     }
   }
 
@@ -35,23 +40,23 @@
       <div class="grid-line horizontal"><span>{value} {last ? "°C" : ""}</span></div>
     </Pancake.Grid>
 
-    <Pancake.Grid vertical count={5} let:value>
+    <Pancake.Grid vertical count={8} let:value>
       <div class="grid-line vertical" />
-      <span class="year-label">{value}</span>
+      <span class="year-label">{new Date(value).toLocaleTimeString()}</span>
     </Pancake.Grid>
 
     <Pancake.Svg>
-      <Pancake.SvgLine data={points} x={(d) => d.date} y={(d) => d.temperature} let:d>
+      <Pancake.SvgLine data={decimatedTemperature} x={(d) => d.date} y={(d) => d.value} let:d>
         <path class="trend" {d} />
       </Pancake.SvgLine>
     </Pancake.Svg>
 
-    <Pancake.Quadtree data={points} x={(d) => d.date} y={(d) => d.temperature} let:closest>
+    <Pancake.Quadtree data={decimatedTemperature} x={(d) => d.date} y={(d) => d.value} let:closest>
       {#if closest}
-        <Pancake.Point x={closest.date} y={closest.temperature} let:d>
+        <Pancake.Point x={closest.date} y={closest.value} let:d>
           <div class="focus" />
           <div class="tooltip" style="transform: translate(-{pc(closest.date)}%,0)">
-            <strong>{closest.temperature} °C</strong>
+            <strong>{closest.value} °C</strong>
             <span>{closest.date}</span>
           </div>
         </Pancake.Point>
