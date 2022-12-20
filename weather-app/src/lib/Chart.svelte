@@ -4,27 +4,27 @@
   import { decimateHourly } from "$lib/decimation";
   import csv from "$lib/data.js";
 
-  const points = csv.split("\n").map((str) => {
+  const data = csv.split("\n").map((str) => {
     const [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
     return { date: new Date(<number>timestamp * 1000), temperature, humidity };
   });
 
-  const decimatedTemperature = decimateHourly(
-    points.map((point) => ({ date: point.date, value: <number>point.temperature }))
+  const points = decimateHourly(
+    data.map((point) => ({ x: point.date, y: <number>point.temperature }))
   );
 
-  const minx = decimatedTemperature[0]!.date;
-  const maxx = decimatedTemperature[decimatedTemperature.length - 1]!.date;
+  const minx = points[0]!.x;
+  const maxx = points[points.length - 1]!.x;
   let miny = +Infinity;
   let maxy = -Infinity;
 
-  for (const point of decimatedTemperature) {
-    if (point.value < miny) {
-      miny = point.value;
+  for (const point of points) {
+    if (point.y < miny) {
+      miny = point.y;
     }
 
-    if (point.value > maxy) {
-      maxy = point.value;
+    if (point.y > maxy) {
+      maxy = point.y;
     }
   }
 </script>
@@ -41,18 +41,18 @@
     </Pancake.Grid>
 
     <Pancake.Svg>
-      <Pancake.SvgLine data={decimatedTemperature} x={(d) => d.date} y={(d) => d.value} let:d>
+      <Pancake.SvgLine data={points} let:d>
         <path class="trend" {d} />
       </Pancake.SvgLine>
     </Pancake.Svg>
 
-    <Pancake.Quadtree data={decimatedTemperature} x={(d) => d.date} y={(d) => d.value} let:closest>
+    <Pancake.Quadtree data={points} let:closest>
       {#if closest}
-        <Pancake.Point x={closest.date} y={closest.value}>
+        <Pancake.Point x={closest.x} y={closest.y}>
           <div class="focus" />
           <div class="tooltip">
-            <strong>{closest.value} °C</strong>
-            <span>{closest.date}</span>
+            <strong>{closest.y} °C</strong>
+            <span>{closest.x}</span>
           </div>
         </Pancake.Point>
       {/if}
