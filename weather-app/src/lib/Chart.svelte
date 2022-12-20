@@ -1,19 +1,19 @@
-<script>
+<script lang="ts">
   import * as Pancake from "@sveltejs/pancake";
   import csv from "./data.js";
   import { decimateHourly } from "$lib/decimation";
 
   const points = csv.split("\n").map((str) => {
     let [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
-    return { date: new Date(timestamp * 1000), temperature, humidity };
+    return { date: new Date(<number>timestamp * 1000), temperature, humidity };
   });
 
   const decimatedTemperature = decimateHourly(
-    points.map((point) => ({ date: point.date, value: point.temperature }))
+    points.map((point) => ({ date: point.date, value: <number>point.temperature }))
   );
 
-  let minx = decimatedTemperature[0].date;
-  let maxx = decimatedTemperature[decimatedTemperature.length - 1].date;
+  let minx = decimatedTemperature[0]!.date;
+  let maxx = decimatedTemperature[decimatedTemperature.length - 1]!.date;
   let miny = +Infinity;
   let maxy = -Infinity;
 
