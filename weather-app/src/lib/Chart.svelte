@@ -4,7 +4,7 @@
   import { decimateHourly } from "$lib/decimation";
 
   const points = csv.split("\n").map((str) => {
-    let [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
+    const [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
     return { date: new Date(<number>timestamp * 1000), temperature, humidity };
   });
 
@@ -12,8 +12,8 @@
     points.map((point) => ({ date: point.date, value: <number>point.temperature }))
   );
 
-  let minx = decimatedTemperature[0]!.date;
-  let maxx = decimatedTemperature[decimatedTemperature.length - 1]!.date;
+  const minx = decimatedTemperature[0]!.date;
+  const maxx = decimatedTemperature[decimatedTemperature.length - 1]!.date;
   let miny = +Infinity;
   let maxy = -Infinity;
 
