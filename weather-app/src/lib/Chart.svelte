@@ -51,8 +51,8 @@
         <Pancake.Point x={closest.x} y={closest.y}>
           <div class="focus" />
           <div class="tooltip">
-            <strong>{closest.y} °C</strong>
-            <span>{closest.x}</span>
+            <strong>{closest.y.toFixed(1)} °C</strong>
+            <span>{closest.x.toLocaleTimeString()}</span>
           </div>
         </Pancake.Point>
       {/if}
