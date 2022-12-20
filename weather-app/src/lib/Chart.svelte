@@ -17,9 +17,7 @@
   let miny = +Infinity;
   let maxy = -Infinity;
 
-  for (let i = 0; i < decimatedTemperature.length; i += 1) {
-    const point = decimatedTemperature[i];
-
+  for (const point of decimatedTemperature) {
     if (point.value < miny) {
       miny = point.value;
     }
