@@ -28,15 +28,11 @@
       maxy = point.value;
     }
   }
-
-  const pc = (date) => {
-    return (100 * (date - minx)) / (maxx - minx);
-  };
 </script>
 
 <div class="chart">
   <Pancake.Chart x1={minx} x2={maxx} y1={miny} y2={maxy}>
-    <Pancake.Grid horizontal count={5} let:value let:last>
+    <Pancake.Grid horizontal let:value let:last>
       <div class="grid-line horizontal"><span>{value} {last ? "°C" : ""}</span></div>
     </Pancake.Grid>
 
@@ -53,9 +49,9 @@
 
     <Pancake.Quadtree data={decimatedTemperature} x={(d) => d.date} y={(d) => d.value} let:closest>
       {#if closest}
-        <Pancake.Point x={closest.date} y={closest.value} let:d>
+        <Pancake.Point x={closest.date} y={closest.value}>
           <div class="focus" />
-          <div class="tooltip" style="transform: translate(-{pc(closest.date)}%,0)">
+          <div class="tooltip">
             <strong>{closest.value} °C</strong>
             <span>{closest.date}</span>
           </div>
