@@ -6,5 +6,5 @@
 
 <div>
   <h1 class="">{title}</h1>
-  <span class="text-9xl">{value}</span><span class="text-6xl">{unit}</span>
+  <span class="text-8xl md:text-9xl">{value}</span><span class="text-5xl md:text-6xl">{unit}</span>
 </div>
