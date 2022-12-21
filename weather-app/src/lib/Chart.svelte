@@ -57,10 +57,9 @@
 
 <style>
   .chart {
-    height: 650px;
+    height: 30vh;
     padding: 3em 0 2em 2em;
     margin: 0 0 36px 0;
-    max-width: 80em;
     margin: 0 auto;
   }
 
