@@ -35,11 +35,6 @@
       <div class="grid-line horizontal"><span>{value} {last ? "°C" : ""}</span></div>
     </Pancake.Grid>
 
-    <Pancake.Grid vertical count={8} let:value>
-      <div class="grid-line vertical" />
-      <span class="label">{new Date(value).toLocaleTimeString()}</span>
-    </Pancake.Grid>
-
     <Pancake.Svg>
       <Pancake.SvgLine data={points} let:d>
         <path {d} />
@@ -80,11 +75,6 @@
     border-bottom: 1px dashed #ccc;
   }
 
-  .grid-line.vertical {
-    height: 100%;
-    border-left: 1px dashed #ccc;
-  }
-
   .grid-line span {
     position: absolute;
     left: 0;
@@ -93,17 +83,6 @@
     font-family: sans-serif;
     font-size: 14px;
     color: #999;
-  }
-
-  .label {
-    position: absolute;
-    width: 4em;
-    left: -2em;
-    bottom: -30px;
-    font-family: sans-serif;
-    font-size: 14px;
-    color: #999;
-    text-align: center;
   }
 
   path {
