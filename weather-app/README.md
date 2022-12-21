@@ -12,36 +12,37 @@ Start by installing dependencies with `npm install` (or `pnpm install` or
 
 Create the local D1 database and run the migration for creating the table.
 
-```bash
-npm run migrations
+```console
+$ npm run migrations
 ```
 
 Since wrangler serves a built site, it is currently
 [not possible](https://github.com/sveltejs/kit/issues/2966)
 to get HMR working. Instead you have to rebuild after each change.
 
-```bash
-npm run pages
+```console
+$ npm run pages
 ```
 
 ### Developing without Miniflare
 
 **Note**: this only works for pages that don't rely on data, so likely none of
-them.
+them. It can still be useful for a fast feedback cycle when doing some pixel
+pushing.
 
-```bash
-npm run dev
+```console
+$ npm run dev
 
 # or start the server and open the app in a new browser tab
-npm run dev -- --open
+$ npm run dev -- --open
 ```
 
 ## Building
 
 To create a production version of the app:
 
-```bash
-npm run build
+```console
+$ npm run build
 ```
 
 You can preview the production build with `npm run preview`, although this too
