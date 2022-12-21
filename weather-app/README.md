@@ -47,3 +47,18 @@ npm run build
 You can preview the production build with `npm run preview`, although this too
 won't be super helpful without Miniflare through wrangler. Stick to the section
 about wrangler/Miniflare above.
+
+## Setting it up in production
+
+1. Create the pages project on Cloudflare with Git integration as per the
+   [documentation](https://developers.cloudflare.com/pages/get-started/).
+   In the build configuration, make sure to set the root directory to
+   `/weather-app` and set the `NODE_VERSION=16` environment variable for
+   production and preview environments.
+2. [Create a D1 database](https://developers.cloudflare.com/d1/get-started/#3-create-your-database)
+   ideally using the name `weather-v3`.
+3. Populate the database by running the command configured in the `migrations`
+   script of `package.json`, but without the `--local` option.
+4. In the settings of your Pages project
+   [configure the bindings](https://developers.cloudflare.com/pages/platform/functions/bindings/#d1-databases)
+   for your database in both environments.
