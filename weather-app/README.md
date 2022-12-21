@@ -8,7 +8,7 @@ current and historical readings.
 Start by installing dependencies with `npm install` (or `pnpm install` or
 `yarn`).
 
-### Developing with wrangler/Miniflare
+### With wrangler/Miniflare
 
 Create the local D1 database and run the migration for creating the table.
 
@@ -24,7 +24,7 @@ to get HMR working. Instead you have to rebuild after each change.
 $ npm run pages
 ```
 
-### Developing without Miniflare
+### Without wrangler/Miniflare
 
 **Note**: this only works for pages that don't rely on data, so likely none of
 them. It can still be useful for a fast feedback cycle when doing some pixel
