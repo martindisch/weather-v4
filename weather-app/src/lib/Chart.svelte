@@ -42,7 +42,7 @@
 
     <Pancake.Svg>
       <Pancake.SvgLine data={points} let:d>
-        <path class="trend" {d} />
+        <path {d} />
       </Pancake.SvgLine>
     </Pancake.Svg>
 
@@ -106,7 +106,7 @@
     text-align: center;
   }
 
-  path.trend {
+  path {
     stroke: #ff3e00;
     stroke-linejoin: round;
     stroke-linecap: round;
@@ -130,7 +130,6 @@
     white-space: nowrap;
     width: 8em;
     bottom: 1em;
-    /* background-color: white; */
     line-height: 1;
     text-shadow: 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white,
       0 0 10px white, 0 0 10px white;
