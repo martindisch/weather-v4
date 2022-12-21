@@ -3,6 +3,10 @@
   import Measurements from "$lib/Measurements.svelte";
 </script>
 
+<svelte:head>
+  <title>Weather</title>
+</svelte:head>
+
 <div class="h-full flex flex-col">
   <div class="flex-1 flex flex-col justify-center"><Measurements /></div>
   <div class="flex-1 min-h-[20em]"><Chart /></div>
