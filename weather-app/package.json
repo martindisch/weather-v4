@@ -10,7 +10,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
-    "migrations": "wrangler d1 execute weather-v3 --local --file ./migrations/measurements.sql",
+    "migrations": "wrangler d1 migrations apply weather-v3 --local",
     "pages": "vite build && wrangler pages dev .svelte-kit/cloudflare --local --persist --port 5173 --compatibility-date 2022-12-21"
   },
   "devDependencies": {
