@@ -1,20 +1,23 @@
 use eyre::{eyre, Result};
+use reqwest::blocking::Client;
+use serde::Serialize;
 use std::{
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 const PIN: u8 = 4;
+const ENDPOINT: &str =
+    "https://weather-app.martindisch.workers.dev/api/measurements";
 
 fn main() -> Result<()> {
-    let measurement = take_measurement()?;
-
-    println!("{measurement:?}");
+    let measurement = measure()?;
+    publish(&measurement)?;
 
     Ok(())
 }
 
-fn take_measurement() -> Result<Measurement> {
+fn measure() -> Result<Measurement> {
     // The first reading after some time of inactivity tends to be off, so
     // discard it
     dht22_pi::read(PIN).ok();
@@ -40,7 +43,17 @@ fn take_measurement() -> Result<Measurement> {
     Err(eyre!("Unable to read sensor after 10 attempts"))
 }
 
-#[derive(Debug, PartialEq)]
+fn publish(measurement: &Measurement) -> Result<()> {
+    let res = Client::new().post(ENDPOINT).json(&[measurement]).send()?;
+
+    if res.status() != 201 {
+        return Err(eyre!("Server responded with status {}", res.status()));
+    }
+
+    Ok(())
+}
+
+#[derive(Debug, PartialEq, Serialize)]
 struct Measurement {
     timestamp: u64,
     temperature: f32,

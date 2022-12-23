@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 dht22_pi = "1.0.0"
 eyre = "0.6.8"
+reqwest = { version = "0.11.13", features = ["blocking", "json"] }
+serde = { version = "1.0.151", features = ["derive"] }
