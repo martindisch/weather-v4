@@ -62,5 +62,5 @@ about wrangler/Miniflare above.
 3. Populate the database by running the command configured in the `migrations`
    script of `package.json`, but without the `--local` option.
 4. In the settings of your Pages project
-   [configure the bindings](https://developers.cloudflare.com/pages/platform/functions/bindings/#d1-databases)
-   for your database in both environments.
+   [configure the binding](https://developers.cloudflare.com/pages/platform/functions/bindings/#d1-databases)
+   `DB=weather-v3` for your database in both environments.
