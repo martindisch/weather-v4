@@ -1,7 +1,6 @@
 name = "weather-app"
 compatibility_date = "2022-12-21"
 
-[[ d1_databases ]]
-binding = "DB"
-database_name = "weather-v3"
-database_id = "2de0dafa-7cc5-4d5f-b9ed-dad54a2c54a6"
+d1_databases = [
+    { binding = "DB", database_name = "weather-v3", database_id = "2de0dafa-7cc5-4d5f-b9ed-dad54a2c54a6" },
+]
