@@ -1,7 +1,10 @@
+use csv::ReaderBuilder;
 use eyre::{eyre, Result};
 use reqwest::blocking::Client;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::{
+    fs,
+    path::Path,
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
@@ -12,7 +15,14 @@ const ENDPOINT: &str =
 
 fn main() -> Result<()> {
     let measurement = measure()?;
-    publish(&measurement)?;
+
+    let pending_path = Path::new(".weather-station/pending_measurements.csv");
+    let mut pending_measurements = read_pending(&pending_path)?;
+    pending_measurements.push(measurement);
+
+    publish(&pending_measurements)?;
+
+    fs::remove_file(pending_path)?;
 
     Ok(())
 }
@@ -43,8 +53,22 @@ fn measure() -> Result<Measurement> {
     Err(eyre!("Unable to read sensor after 10 attempts"))
 }
 
-fn publish(measurement: &Measurement) -> Result<()> {
-    let res = Client::new().post(ENDPOINT).json(&[measurement]).send()?;
+fn read_pending(path: &Path) -> Result<Vec<Measurement>> {
+    if !path.exists() {
+        return Ok(vec![]);
+    }
+
+    let mut reader = ReaderBuilder::new().has_headers(false).from_path(path)?;
+    let pending_measurements: Vec<Measurement> = reader
+        .deserialize()
+        .filter_map(|result| result.ok())
+        .collect();
+
+    Ok(pending_measurements)
+}
+
+fn publish(measurements: &[Measurement]) -> Result<()> {
+    let res = Client::new().post(ENDPOINT).json(&[measurements]).send()?;
 
     if res.status() != 201 {
         return Err(eyre!("Server responded with status {}", res.status()));
@@ -53,7 +77,7 @@ fn publish(measurement: &Measurement) -> Result<()> {
     Ok(())
 }
 
-#[derive(Debug, PartialEq, Serialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 struct Measurement {
     timestamp: u64,
     temperature: f32,
