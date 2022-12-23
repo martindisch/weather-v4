@@ -19,6 +19,9 @@ fn take_measurement() -> Result<Measurement, &'static str> {
     // Since about 30% of measurements fail, we just try until we succeed but
     // with an upper bound so we don't end up running forever
     for _ in 0..10 {
+        // The sensor can't be read too frequently
+        thread::sleep(Duration::from_secs(3));
+
         if let Ok(reading) = dht22_pi::read(PIN) {
             let timestamp = SystemTime::now()
                 .duration_since(UNIX_EPOCH)
@@ -31,9 +34,6 @@ fn take_measurement() -> Result<Measurement, &'static str> {
                 humidity: reading.humidity,
             });
         }
-
-        // The sensor can't be read too frequently
-        thread::sleep(Duration::from_secs(3));
     }
 
     Err("Unable to read sensor after 10 attempts")
