@@ -1,4 +1,4 @@
-import type { RequestHandler } from "@sveltejs/kit";
+import { type RequestHandler, json } from "@sveltejs/kit";
 import type { Measurement } from "$lib/types";
 
 export const POST: RequestHandler = async ({ request, platform }) => {
@@ -15,4 +15,20 @@ export const POST: RequestHandler = async ({ request, platform }) => {
   await db.batch(insertBatch);
 
   return new Response(null, { status: 201 });
+};
+
+export const GET: RequestHandler = async ({ platform }) => {
+  const db = platform.env.DB;
+
+  const { results: measurements } = await db
+    .prepare(
+      `
+        SELECT * FROM Measurements
+        WHERE Timestamp > unixepoch() - 86400
+        ORDER BY Timestamp ASC;
+      `
+    )
+    .all();
+
+  return json(measurements);
 };
