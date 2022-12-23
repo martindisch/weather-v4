@@ -5,8 +5,8 @@ sensor, this time with a SvelteKit web app on Cloudflare Pages.
 
 The system has two parts:
 
-- Base station with sensor, taking regular measurements and uploading them to
-  the backend whenever it has connectivity
+- [Base station](weather-station/README.md) with sensor, taking regular
+  measurements and uploading them to the backend whenever it has connectivity
 - [Backend and client](weather-app/README.md) for storing and interacting with
   current and historical readings
 
