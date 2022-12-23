@@ -11,3 +11,11 @@ timings, it requires the `cap_sys_nice` capability. This means you need to run
 ```
 
 as root/with `sudo` on your binary after the build.
+
+To make it take a measurement and post it and all other unpublished
+measurements to the backend, simply set up a cron schedule pointing to your
+binary.
+
+```
+*/5 * * * * /home/pi/weather-v3/weather-station/target/release/weather-station
+```
