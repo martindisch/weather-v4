@@ -17,5 +17,5 @@ measurements to the backend, simply set up a cron schedule pointing to your
 binary.
 
 ```
-*/5 * * * * /home/pi/weather-v3/weather-station/target/release/weather-station
+*/5 * * * * /home/pi/weather-v3/weather-station/target/release/weather-station 2>&1 | /usr/bin/logger -t weather-station
 ```
