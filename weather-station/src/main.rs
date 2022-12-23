@@ -76,7 +76,7 @@ fn read_pending(path: &Path) -> Result<Vec<Measurement>> {
 }
 
 fn publish(measurements: &[Measurement]) -> Result<()> {
-    let res = Client::new().post(ENDPOINT).json(&[measurements]).send()?;
+    let res = Client::new().post(ENDPOINT).json(&measurements).send()?;
 
     if res.status() != 201 {
         return Err(eyre!("Server responded with status {}", res.status()));
