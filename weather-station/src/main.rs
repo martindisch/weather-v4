@@ -17,17 +17,19 @@ const ENDPOINT: &str =
 fn main() -> Result<()> {
     let measurement = measure()?;
 
-    let pending_path = Path::new(".weather-station/pending_measurements.csv");
+    let mut pending_path =
+        home::home_dir().ok_or(eyre!("No home directory found"))?;
+    pending_path.push(".pending_measurements.csv");
     let mut pending_measurements = read_pending(&pending_path)?;
     pending_measurements.push(measurement);
 
     match publish(&pending_measurements) {
         Ok(_) => {
-            fs::remove_file(pending_path)?;
+            fs::remove_file(pending_path).ok();
             Ok(())
         }
         Err(e) => {
-            append_pending(&measurement, pending_path)?;
+            append_pending(&measurement, &pending_path)?;
             Err(e)
         }
     }
@@ -89,9 +91,8 @@ fn append_pending(measurement: &Measurement, path: &Path) -> Result<()> {
     writer.serialize(measurement)?;
     let row = String::from_utf8(writer.into_inner()?)?;
 
-    fs::create_dir_all(path)?;
-    let mut file = OpenOptions::new().append(true).open(path)?;
-    writeln!(file, "{row}")?;
+    let mut file = OpenOptions::new().create(true).append(true).open(path)?;
+    write!(file, "{row}")?;
 
     Ok(())
 }
