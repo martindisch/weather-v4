@@ -1,9 +1,10 @@
-use csv::ReaderBuilder;
+use csv::{ReaderBuilder, WriterBuilder};
 use eyre::{eyre, Result};
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::{
-    fs,
+    fs::{self, OpenOptions},
+    io::Write,
     path::Path,
     thread,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -20,11 +21,16 @@ fn main() -> Result<()> {
     let mut pending_measurements = read_pending(&pending_path)?;
     pending_measurements.push(measurement);
 
-    publish(&pending_measurements)?;
-
-    fs::remove_file(pending_path)?;
-
-    Ok(())
+    match publish(&pending_measurements) {
+        Ok(_) => {
+            fs::remove_file(pending_path)?;
+            Ok(())
+        }
+        Err(e) => {
+            append_pending(&measurement, pending_path)?;
+            Err(e)
+        }
+    }
 }
 
 fn measure() -> Result<Measurement> {
@@ -77,7 +83,20 @@ fn publish(measurements: &[Measurement]) -> Result<()> {
     Ok(())
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+fn append_pending(measurement: &Measurement, path: &Path) -> Result<()> {
+    let mut writer =
+        WriterBuilder::new().has_headers(false).from_writer(vec![]);
+    writer.serialize(measurement)?;
+    let row = String::from_utf8(writer.into_inner()?)?;
+
+    fs::create_dir_all(path)?;
+    let mut file = OpenOptions::new().append(true).open(path)?;
+    writeln!(file, "{row}")?;
+
+    Ok(())
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 struct Measurement {
     timestamp: u64,
     temperature: f32,
