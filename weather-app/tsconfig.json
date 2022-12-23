@@ -17,7 +17,9 @@
 
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    "types": ["@cloudflare/workers-types"]
   }
   // Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
   //
