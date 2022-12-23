@@ -82,7 +82,7 @@ fn publish(measurements: &[Measurement]) -> Result<()> {
         return Err(eyre!("Server responded with status {}", res.status()));
     }
 
-    println!("Published {} measurements", measurements.len());
+    println!("Published {} measurement(s)", measurements.len());
 
     Ok(())
 }
