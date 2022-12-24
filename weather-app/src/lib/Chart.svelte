@@ -5,6 +5,8 @@
   import type { Point } from "$lib/types";
 
   export let points: Point[];
+  export let unit: string;
+  export let color: string = "black";
 
   const decimatedPoints = decimateHourly(points);
 
@@ -27,12 +29,12 @@
 <div class="chart">
   <Pancake.Chart x1={minx} x2={maxx} y1={miny} y2={maxy}>
     <Pancake.Grid horizontal let:value let:last>
-      <div class="grid-line horizontal"><span>{value} {last ? "°C" : ""}</span></div>
+      <div class="grid-line horizontal"><span>{value} {last ? unit : ""}</span></div>
     </Pancake.Grid>
 
     <Pancake.Svg>
       <Pancake.SvgLine data={decimatedPoints} let:d>
-        <path {d} />
+        <path {d} style:stroke={color} />
       </Pancake.SvgLine>
     </Pancake.Svg>
 
@@ -41,7 +43,7 @@
         <Pancake.Point x={closest.x} y={closest.y}>
           <div class="focus" />
           <div class="tooltip">
-            <strong>{closest.y.toFixed(1)} °C</strong>
+            <strong>{closest.y.toFixed(1)} {unit}</strong>
             <span>{closest.x.toLocaleTimeString()}</span>
           </div>
         </Pancake.Point>
@@ -80,7 +82,6 @@
   }
 
   path {
-    stroke: #ff3e00;
     stroke-linejoin: round;
     stroke-linecap: round;
     stroke-width: 2px;

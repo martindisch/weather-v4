@@ -23,6 +23,6 @@
 
 <div class="h-full flex flex-col">
   <div class="flex-1 flex flex-col justify-center"><Measurements /></div>
-  <div class="flex-1 min-h-[20em]"><Chart points={temperaturePoints} /></div>
-  <div class="flex-1 min-h-[20em]"><Chart points={humidityPoints} /></div>
+  <div class="flex-1 min-h-[20em]"><Chart points={temperaturePoints} unit="°C" color="red" /></div>
+  <div class="flex-1 min-h-[20em]"><Chart points={humidityPoints} unit="%" color="blue" /></div>
 </div>
