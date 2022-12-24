@@ -102,7 +102,6 @@
   .tooltip {
     position: absolute;
     white-space: nowrap;
-    width: 8em;
     bottom: 1em;
     line-height: 1;
     text-shadow: 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white,
