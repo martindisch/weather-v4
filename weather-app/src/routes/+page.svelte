@@ -5,6 +5,8 @@
 
   export let data: { measurements: Measurement[] };
 
+  const newestMeasurement = data.measurements[data.measurements.length - 1]!;
+
   const { temperaturePoints, humidityPoints } = data.measurements.reduce(
     (previous, current) => {
       const date = new Date(current.timestamp * 1000);
@@ -22,7 +24,12 @@
 </svelte:head>
 
 <div class="h-full flex flex-col">
-  <div class="flex-1 basis-1/6 flex flex-col justify-center"><Measurements /></div>
+  <div class="flex-1 basis-1/6 flex flex-col justify-center">
+    <Measurements
+      temperature={newestMeasurement.temperature}
+      humidity={newestMeasurement.humidity}
+    />
+  </div>
   <div class="flex-1 basis-1/3 min-h-[15em]">
     <Chart points={temperaturePoints} unit="°C" color="red" />
   </div>
