@@ -1,14 +1,14 @@
 <script lang="ts">
   // @ts-ignore
   import * as Pancake from "@sveltejs/pancake";
-  import { decimateHourly } from "$lib/decimation";
+  import { decimate } from "$lib/decimation";
   import type { Point } from "$lib/types";
 
   export let points: Point[];
   export let unit: string;
   export let color: string = "black";
 
-  const decimatedPoints = decimateHourly(points);
+  const decimatedPoints = decimate(points);
 
   const minx = decimatedPoints[0]!.x;
   const maxx = decimatedPoints[decimatedPoints.length - 1]!.x;
