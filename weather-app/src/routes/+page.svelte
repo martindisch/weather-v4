@@ -1,6 +1,9 @@
 <script lang="ts">
   import Chart from "$lib/Chart.svelte";
   import Measurements from "$lib/Measurements.svelte";
+  import type { Measurement } from "$lib/types";
+
+  export let data: { measurements: Measurement[] };
 </script>
 
 <svelte:head>
