@@ -22,7 +22,12 @@
 </svelte:head>
 
 <div class="h-full flex flex-col">
-  <div class="flex-1 flex flex-col justify-center"><Measurements /></div>
-  <div class="flex-1 min-h-[20em]"><Chart points={temperaturePoints} unit="°C" color="red" /></div>
-  <div class="flex-1 min-h-[20em]"><Chart points={humidityPoints} unit="%" color="blue" /></div>
+  <div class="flex-1 basis-1/6 flex flex-col justify-center"><Measurements /></div>
+  <div class="flex-1 basis-1/3 min-h-[15em]">
+    <Chart points={temperaturePoints} unit="°C" color="red" />
+  </div>
+  <div class="flex-1 basis-1/3 min-h-[15em]">
+    <Chart points={humidityPoints} unit="%" color="blue" />
+  </div>
+  <div class="h-[5vh]" />
 </div>
