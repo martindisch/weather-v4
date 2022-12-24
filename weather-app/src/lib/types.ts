@@ -3,3 +3,8 @@ export interface Measurement {
   temperature: number;
   humidity: number;
 }
+
+export interface Point {
+  x: Date;
+  y: number;
+}

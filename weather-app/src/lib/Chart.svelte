@@ -2,23 +2,18 @@
   // @ts-ignore
   import * as Pancake from "@sveltejs/pancake";
   import { decimateHourly } from "$lib/decimation";
-  import csv from "$lib/data.js";
+  import type { Point } from "$lib/types";
 
-  const data = csv.split("\n").map((str) => {
-    const [timestamp, temperature, humidity] = str.split(",").map(parseFloat);
-    return { date: new Date(<number>timestamp * 1000), temperature, humidity };
-  });
+  export let points: Point[];
 
-  const points = decimateHourly(
-    data.map((point) => ({ x: point.date, y: <number>point.temperature }))
-  );
+  const decimatedPoints = decimateHourly(points);
 
-  const minx = points[0]!.x;
-  const maxx = points[points.length - 1]!.x;
+  const minx = decimatedPoints[0]!.x;
+  const maxx = decimatedPoints[decimatedPoints.length - 1]!.x;
   let miny = +Infinity;
   let maxy = -Infinity;
 
-  for (const point of points) {
+  for (const point of decimatedPoints) {
     if (point.y < miny) {
       miny = point.y;
     }
@@ -36,12 +31,12 @@
     </Pancake.Grid>
 
     <Pancake.Svg>
-      <Pancake.SvgLine data={points} let:d>
+      <Pancake.SvgLine data={decimatedPoints} let:d>
         <path {d} />
       </Pancake.SvgLine>
     </Pancake.Svg>
 
-    <Pancake.Quadtree data={points} let:closest>
+    <Pancake.Quadtree data={decimatedPoints} let:closest>
       {#if closest}
         <Pancake.Point x={closest.x} y={closest.y}>
           <div class="focus" />

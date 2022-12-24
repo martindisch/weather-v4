@@ -1,7 +1,4 @@
-interface Point {
-  x: Date;
-  y: number;
-}
+import type { Point } from "$lib/types";
 
 export const decimateHourly = (points: Point[]) => {
   if (!points[0]) {
