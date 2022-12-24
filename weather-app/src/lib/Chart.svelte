@@ -6,7 +6,7 @@
 
   export let points: Point[];
   export let unit: string;
-  export let color: string = "black";
+  export let color = "black";
 
   const decimatedPoints = decimate(points);
 
