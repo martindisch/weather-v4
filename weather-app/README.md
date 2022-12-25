@@ -1,7 +1,8 @@
 # weather-app
 
 This SvelteKit app is the client and backend for storing and interacting with
-current and historical readings.
+current and historical readings. It's deployed on Cloudflare Pages and uses a
+D1 database.
 
 ## Developing
 
