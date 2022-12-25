@@ -6,5 +6,7 @@
 
 <div>
   <h1>{title}</h1>
-  <span class="text-7xl md:text-8xl">{value}</span><span class="text-4xl md:text-5xl">{unit}</span>
+  <span class="text-7xl md:text-8xl">{value.toFixed(1)}</span><span class="text-4xl md:text-5xl"
+    >{unit}</span
+  >
 </div>
