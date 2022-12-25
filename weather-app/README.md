@@ -65,3 +65,8 @@ about wrangler/Miniflare above.
    [configure the binding](https://developers.cloudflare.com/pages/platform/functions/bindings/#d1-databases)
    `DB=weather-v3` for your database. You may want to use a different one for
    the preview environment.
+5. Generate an API key (for example with `uuidgen`) and create an encrypted
+   environment variable named `API_KEY` holding it for the production
+   environment. Again you might want to use a different one for the preview
+   environment, as it may be possible to extract the key with a malicious pull
+   request.

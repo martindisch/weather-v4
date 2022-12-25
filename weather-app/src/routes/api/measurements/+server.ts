@@ -1,8 +1,8 @@
-import type { RequestHandler } from "@sveltejs/kit";
+import { type RequestHandler, error } from "@sveltejs/kit";
 import type { Measurement } from "$lib/types";
 
 export const POST: RequestHandler = async ({ request, platform }) => {
-  // TODO: some sort of simple authentication
+  verifyApiKey(request.headers.get("x-api-key"), platform.env.API_KEY);
 
   const db = platform.env.DB;
 
@@ -15,4 +15,12 @@ export const POST: RequestHandler = async ({ request, platform }) => {
   await db.batch(insertBatch);
 
   return new Response(null, { status: 201 });
+};
+
+// Because this route is the only place we need the following code, it hasn't
+// been turned into a middleware yet
+const verifyApiKey = (headerKey: string | null, environmentKey: string) => {
+  if (headerKey !== environmentKey) {
+    throw error(401, "Invalid API key");
+  }
 };
