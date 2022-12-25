@@ -35,11 +35,9 @@ export const decimate = (points: Point[]) => {
   return decimated;
 };
 
-const bucketBase = (date: Date) =>
-  new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDay(),
-    date.getHours(),
-    date.getMinutes() - (date.getMinutes() % bucketSizeMinutes)
-  );
+const bucketBase = (date: Date) => {
+  const bucketDate = new Date(date);
+  bucketDate.setMinutes(date.getMinutes() - (date.getMinutes() % bucketSizeMinutes));
+  bucketDate.setSeconds(0);
+  return bucketDate;
+};
