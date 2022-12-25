@@ -1,8 +1,9 @@
 use csv::{ReaderBuilder, WriterBuilder};
-use eyre::{eyre, Result};
+use eyre::{eyre, Result, WrapErr};
 use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use std::{
+    env,
     fs::{self, OpenOptions},
     io::Write,
     path::Path,
@@ -15,6 +16,8 @@ const ENDPOINT: &str =
     "https://weather-app.martindisch.workers.dev/api/measurements";
 
 fn main() -> Result<()> {
+    let api_key = env::var("API_KEY").wrap_err("Missing API_KEY")?;
+
     let measurement = measure()?;
 
     let mut pending_path =
@@ -23,7 +26,7 @@ fn main() -> Result<()> {
     let mut pending_measurements = read_pending(&pending_path)?;
     pending_measurements.push(measurement);
 
-    match publish(&pending_measurements) {
+    match publish(&pending_measurements, &api_key) {
         Ok(_) => {
             fs::remove_file(pending_path).ok();
             Ok(())
@@ -75,8 +78,12 @@ fn read_pending(path: &Path) -> Result<Vec<Measurement>> {
     Ok(pending_measurements)
 }
 
-fn publish(measurements: &[Measurement]) -> Result<()> {
-    let res = Client::new().post(ENDPOINT).json(&measurements).send()?;
+fn publish(measurements: &[Measurement], api_key: &str) -> Result<()> {
+    let res = Client::new()
+        .post(ENDPOINT)
+        .header("x-api-key", api_key)
+        .json(&measurements)
+        .send()?;
 
     if res.status() != 201 {
         return Err(eyre!("Server responded with status {}", res.status()));
