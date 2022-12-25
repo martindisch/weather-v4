@@ -59,8 +59,9 @@ about wrangler/Miniflare above.
 2. [Create a D1 database](https://developers.cloudflare.com/d1/get-started/#3-create-your-database),
    ideally using the name `weather-v3`. Update the values in `wrangler.toml`
    with the output.
-3. Populate the database by running the command configured in the `migrations`
-   script of `package.json`, but without the `--local` option.
+3. Initialize the database by running the wrangler command configured in the
+   `migrations` script of `package.json`, but without the `--local` option.
 4. In the settings of your Pages project
    [configure the binding](https://developers.cloudflare.com/pages/platform/functions/bindings/#d1-databases)
-   `DB=weather-v3` for your database in both environments.
+   `DB=weather-v3` for your database. You may want to use a different one for
+   the preview environment.
