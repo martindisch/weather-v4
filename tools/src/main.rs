@@ -29,6 +29,7 @@ fn main() -> Result<()> {
         let mut writer = BufWriter::new(
             OpenOptions::new()
                 .write(true)
+                .truncate(true)
                 .create(true)
                 .open(&file_path)?,
         );
