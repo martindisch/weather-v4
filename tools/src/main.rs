@@ -35,17 +35,17 @@ fn main() -> Result<()> {
         writeln!(writer, "INSERT INTO measurements VALUES {values_joined};")?;
         mem::drop(writer);
 
-        Command::new("wrangler")
+        let output = Command::new("wrangler")
             .arg("d1")
             .arg("execute")
             .arg(DB)
             .arg("--file")
             .arg(file_path.to_str().ok_or(eyre!("Path not unicode"))?)
-            .output()?
-            .status
-            .success()
-            .then_some(())
-            .ok_or(eyre!("Command failed"))?;
+            .output()?;
+        if !output.status.success() {
+            eprintln!("{}", String::from_utf8_lossy(&output.stdout));
+            return Err(eyre!("Command failed"));
+        }
 
         println!(
             "Inserted another batch of values {:?} after start",
