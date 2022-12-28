@@ -1,9 +1,0 @@
-[package]
-name = "tools"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-eyre = "0.6.8"
-itertools = "0.10.5"
-tempdir = "0.3.7"
