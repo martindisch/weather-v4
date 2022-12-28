@@ -9,7 +9,7 @@ use std::{
 };
 use tempdir::TempDir;
 
-const DB: &str = "weather-test";
+const DB: &str = "weather-v3";
 
 fn main() -> Result<()> {
     let values = BufReader::new(File::open("history.csv")?)
