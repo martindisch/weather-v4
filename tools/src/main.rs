@@ -5,6 +5,7 @@ use std::{
     io::{BufRead, BufReader, BufWriter, Write},
     mem,
     process::Command,
+    time::Instant,
 };
 use tempdir::TempDir;
 
@@ -20,6 +21,7 @@ fn main() -> Result<()> {
     let file_path = dir.path().join("command.sql");
     println!("Using temporary file {file_path:?} for SQL commands");
 
+    let start = Instant::now();
     for chunk in &values.chunks(10_000) {
         let values_joined: String =
             itertools::Itertools::intersperse(chunk, ", ".into()).collect();
@@ -44,6 +46,11 @@ fn main() -> Result<()> {
             .success()
             .then_some(())
             .ok_or(eyre!("Command failed"))?;
+
+        println!(
+            "Inserted another batch of values {:?} after start",
+            start.elapsed()
+        );
     }
 
     Ok(())
