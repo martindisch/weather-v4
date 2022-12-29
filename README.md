@@ -26,9 +26,10 @@ What's cool about it?
   applications. In fact, this one doesn't even require JavaScript on the client
   to work.
 - The whole project is extremely minimal and simple. In terms of logic, it only
-  has 316 lines of actual code. Granted, it's a very basic use case with only a
-  single page and going for a full framework like SvelteKit is overkill, but I
-  really wanted to try 1.0 now that it's out and I couldn't be happier with it.
+  has 316 lines of actual code for both the base station and backend + client.
+  Granted, it's a very basic use case with only a single page and going for a
+  full framework like SvelteKit is overkill, but I really wanted to try 1.0 now
+  that it's out and I couldn't be happier with it.
   ```console
   $ scc -i svelte,ts,rs
   ─────────────────────────────────────────────────────────────────────────────
