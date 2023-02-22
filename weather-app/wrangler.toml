@@ -4,10 +4,3 @@ compatibility_date = "2022-12-21"
 d1_databases = [
     { binding = "DB", database_name = "weather-v3", database_id = "2de0dafa-7cc5-4d5f-b9ed-dad54a2c54a6" },
 ]
-
-# This is only necessary for Workers Sites
-account_id = "ddc432a56044bef92b27a42975d4c42e"
-main = "./.svelte-kit/cloudflare/_worker.js"
-site.bucket = "./.svelte-kit/cloudflare"
-build.command = "npm run build"
-workers_dev = true
