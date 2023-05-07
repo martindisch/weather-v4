@@ -1,11 +1,8 @@
 # weather-v3
 
 This is the third iteration of my simple weather station using an AM2302
-sensor, this time with a SvelteKit web app on Cloudflare Pages.
-
-It's reachable at https://weather-app.martindisch.workers.dev as a Workers Site
-because Pages has a small issue with D1 bindings at the moment. It's going to
-be a very quick migration to Pages once that's ready.
+sensor, this time with a SvelteKit web app on Cloudflare Pages, reachable at
+https://weather-v3.pages.dev.
 
 The system has two parts:
 
