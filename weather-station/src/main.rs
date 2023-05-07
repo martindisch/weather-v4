@@ -12,8 +12,7 @@ use std::{
 };
 
 const PIN: u8 = 4;
-const ENDPOINT: &str =
-    "https://weather-app.martindisch.workers.dev/api/measurements";
+const ENDPOINT: &str = "https://weather-v3.pages.dev/api/measurements";
 
 fn main() -> Result<()> {
     let api_key = env::var("API_KEY").wrap_err("Missing API_KEY")?;
