@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request, platform }) => {
   const db = platform.env.DB;
 
   const measurements: Measurement[] = await request.json();
-  const insertStatement = db.prepare("INSERT INTO measurements VALUES (?, ?, ?);");
+  const insertStatement = db.prepare("REPLACE INTO measurements VALUES (?, ?, ?);");
   const insertBatch = measurements.map((measurement) =>
     insertStatement.bind(measurement.timestamp, measurement.temperature, measurement.humidity)
   );
