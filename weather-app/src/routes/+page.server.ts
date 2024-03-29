@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ platform }) => {
         SELECT * FROM measurements
         WHERE timestamp > unixepoch() - 86400
         ORDER BY timestamp ASC;
-      `
+      `,
     )
     .all();
 

@@ -104,8 +104,14 @@
     white-space: nowrap;
     bottom: 1em;
     line-height: 1;
-    text-shadow: 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white, 0 0 10px white,
-      0 0 10px white, 0 0 10px white;
+    text-shadow:
+      0 0 10px white,
+      0 0 10px white,
+      0 0 10px white,
+      0 0 10px white,
+      0 0 10px white,
+      0 0 10px white,
+      0 0 10px white;
   }
 
   .tooltip strong {

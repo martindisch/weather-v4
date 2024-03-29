@@ -15,7 +15,7 @@
 
       return previous;
     },
-    { temperaturePoints: <Point[]>[], humidityPoints: <Point[]>[] }
+    { temperaturePoints: <Point[]>[], humidityPoints: <Point[]>[] },
   );
 </script>
 

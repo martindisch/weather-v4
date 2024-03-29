@@ -5,7 +5,7 @@ const insertStatements = [...Array(288).keys()]
   .map((i) => [timestamp + i * 5 * 60, 10 + i * 0.03472, 20 - i * 0.03472])
   .map(
     ([timestamp, temperature, humidity]) =>
-      `INSERT INTO measurements VALUES(${timestamp},${temperature},${humidity});`
+      `INSERT INTO measurements VALUES(${timestamp},${temperature},${humidity});`,
   )
   .join("\n");
 
