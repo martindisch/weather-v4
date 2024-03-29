@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "build": "vite build",
-    "check": "prettier --plugin-search-dir . --check . && eslint . && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "format": "prettier --plugin-search-dir . --write .",
+    "check": "prettier --check . && eslint . && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "format": "prettier --write .",
     "migrations": "wrangler d1 migrations apply weather-v3 --local",
     "testdata": "node tools/generate-test-data.js && wrangler d1 execute DB --local --file testdata.sql",
     "pages": "vite build && wrangler pages dev"
