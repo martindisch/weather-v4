@@ -11,10 +11,12 @@ Start by installing dependencies with `npm install` (or `pnpm install` or
 
 ### With wrangler/Miniflare
 
-Create the local D1 database and run the migration for creating the table.
+Create the local D1 database, run the migration for creating the table and
+insert some testdata.
 
 ```console
 $ npm run migrations
+$ npm run testdata
 ```
 
 Since wrangler serves a built site, it is currently
@@ -25,19 +27,6 @@ to get HMR working. Instead you have to rebuild after each change.
 $ npm run pages
 ```
 
-### Without wrangler/Miniflare
-
-**Note**: this only works for pages that don't rely on data, so likely none of
-them. It can still be useful for a fast feedback cycle when doing some pixel
-pushing.
-
-```console
-$ npm run dev
-
-# or start the server and open the app in a new browser tab
-$ npm run dev -- --open
-```
-
 ## Building
 
 To create a production version of the app:
@@ -45,10 +34,6 @@ To create a production version of the app:
 ```console
 $ npm run build
 ```
-
-You can preview the production build with `npm run preview`, although this too
-won't be super helpful without Miniflare through wrangler. Stick to the section
-about wrangler/Miniflare above.
 
 ## Setting it up in production
 

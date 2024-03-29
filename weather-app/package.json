@@ -3,13 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
     "build": "vite build",
-    "preview": "vite preview",
     "check": "prettier --plugin-search-dir . --check . && eslint . && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "format": "prettier --plugin-search-dir . --write .",
     "migrations": "wrangler d1 migrations apply weather-v3 --local",
-    "pages": "vite build && wrangler pages dev .svelte-kit/cloudflare --local --persist --port 5173 --compatibility-date 2022-12-21"
+    "testdata": "node tools/generate-test-data.js && wrangler d1 execute DB --local --file testdata.sql",
+    "pages": "vite build && wrangler pages dev"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240320.1",
