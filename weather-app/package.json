@@ -12,29 +12,29 @@
     "pages": "vite build && wrangler pages dev .svelte-kit/cloudflare --local --persist --port 5173 --compatibility-date 2022-12-21"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20221111.1",
-    "@databases/split-sql-query": "^1.0.3",
-    "@databases/sql": "^3.2.0",
+    "@cloudflare/workers-types": "^4.20240320.1",
+    "@databases/split-sql-query": "^1.0.4",
+    "@databases/sql": "^3.3.0",
     "@sveltejs/adapter-cloudflare": "^1.0.0",
     "@sveltejs/kit": "^1.0.0",
     "@sveltejs/pancake": "^0.0.18",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^10.4.19",
     "better-sqlite3": "^8.0.1",
-    "eslint": "^8.28.0",
+    "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-svelte3": "^4.0.0",
-    "postcss": "^8.4.20",
+    "postcss": "^8.4.38",
     "prettier": "^2.8.0",
     "prettier-plugin-svelte": "^2.8.1",
     "svelte": "^3.54.0",
     "svelte-check": "^2.9.2",
-    "tailwindcss": "^3.2.4",
-    "tslib": "^2.4.1",
+    "tailwindcss": "^3.4.3",
+    "tslib": "^2.6.2",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
-    "wrangler": "^3.40.0"
+    "wrangler": "^3.41.0"
   },
   "type": "module"
 }
