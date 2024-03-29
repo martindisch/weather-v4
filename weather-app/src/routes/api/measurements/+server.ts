@@ -2,9 +2,9 @@ import { type RequestHandler, error } from "@sveltejs/kit";
 import type { Measurement } from "$lib/types";
 
 export const POST: RequestHandler = async ({ request, platform }) => {
-  verifyApiKey(request.headers.get("x-api-key"), platform.env.API_KEY);
+  verifyApiKey(request.headers.get("x-api-key"), platform!.env.API_KEY);
 
-  const db = platform.env.DB;
+  const db = platform!.env.DB;
 
   const measurements: Measurement[] = await request.json();
   const insertStatement = db.prepare("REPLACE INTO measurements VALUES (?, ?, ?);");

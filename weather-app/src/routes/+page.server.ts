@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ platform }) => {
-  const db = platform.env.DB;
+  const db = platform!.env.DB;
 
   const { results: measurements } = await db
     .prepare(

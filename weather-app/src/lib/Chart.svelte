@@ -1,5 +1,5 @@
 <script lang="ts">
-  // @ts-ignore
+  // @ts-expect-error because the library doesn't have types
   import * as Pancake from "@sveltejs/pancake";
   import { decimate } from "$lib/decimation";
   import type { Point } from "$lib/types";
