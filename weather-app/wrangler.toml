@@ -1,8 +1,0 @@
-name = "weather-app"
-compatibility_date = "2024-03-29"
-
-d1_databases = [
-    { binding = "DB", database_name = "weather-v3-beta", database_id = "7e240549-cdfe-45d0-a96f-f86a6ec9f9db" },
-]
-
-pages_build_output_dir = ".svelte-kit/cloudflare"
