@@ -94,18 +94,36 @@ fn Measurements() -> impl IntoView {
 
 #[server]
 async fn load_measurements(range: TimeRange) -> Result<Vec<Measurement>, ServerFnError> {
+    use rusqlite::Connection;
     use std::time::Duration;
-    use tokio::time;
+    use time::{Date, Month, OffsetDateTime, Time};
 
-    time::sleep(Duration::from_secs(2)).await;
+    let start_time = OffsetDateTime::new_utc(
+        Date::from_calendar_date(2022, Month::March, 12)?,
+        Time::from_hms(9, 3, 0)?,
+    );
+    let end_time = start_time + Duration::from_secs(range.seconds());
 
-    let measurements = (0..12)
-        .map(|i| Measurement {
-            timestamp: i,
-            temperature: i as f32,
-            humidity: i as f32,
-        })
-        .collect();
+    let conn = Connection::open("measurements.sqlite3")?;
+
+    let mut stmt = conn.prepare(
+        "SELECT timestamp, temperature, humidity
+        FROM measurements
+        WHERE timestamp BETWEEN ?1 AND ?2
+        ORDER BY timestamp ASC",
+    )?;
+    let measurements = stmt
+        .query_map(
+            [start_time.unix_timestamp(), end_time.unix_timestamp()],
+            |row| {
+                Ok(Measurement {
+                    timestamp: row.get(0)?,
+                    temperature: row.get(1)?,
+                    humidity: row.get(2)?,
+                })
+            },
+        )?
+        .collect::<Result<Vec<_>, _>>()?;
 
     Ok(measurements)
 }
