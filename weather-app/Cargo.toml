@@ -18,8 +18,6 @@ tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 tower = { version = "0.4", optional = true }
 tower-http = { version = "0.5", features = ["fs"], optional = true }
 wasm-bindgen = "=0.2.99"
-thiserror = "1"
-http = "1"
 
 [features]
 hydrate = ["leptos/hydrate"]
