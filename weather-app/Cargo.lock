@@ -2355,6 +2355,7 @@ dependencies = [
  "leptos_axum",
  "leptos_meta",
  "leptos_router",
+ "serde",
  "tokio",
  "tower 0.4.13",
  "tower-http 0.5.2",

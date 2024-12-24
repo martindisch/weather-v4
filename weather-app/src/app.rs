@@ -4,6 +4,7 @@ use leptos_router::{
     components::{Route, Router, Routes},
     StaticSegment,
 };
+use serde::{Deserialize, Serialize};
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -34,14 +35,13 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/weather-app.css" />
 
         // sets the document title
-        <Title text="Welcome to Leptos" />
+        <Title text="Weather" />
 
         // content for this welcome page
         <Router>
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
-                    <Route path=StaticSegment("") view=HomePage />
-
+                    <Route path=StaticSegment("") view=MeasurementsPage />
                 </Routes>
             </main>
         </Router>
@@ -50,13 +50,87 @@ pub fn App() -> impl IntoView {
 
 /// Renders the home page of your application.
 #[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let count = RwSignal::new(0);
-    let on_click = move |_| *count.write() += 1;
+fn MeasurementsPage() -> impl IntoView {
+    view! { <Measurements /> }
+}
+
+#[component]
+fn Measurements() -> impl IntoView {
+    let measurements = OnceResource::new(load_measurements(TimeRange::Day));
 
     view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <Suspense fallback=move || view! { <p>"Loading ..."</p> }>
+            <table>
+                <thead>
+                    <tr>
+                        <th>"Date"</th>
+                        <th>"Temperature (°C)"</th>
+                        <th>"Relative humidity (%)"</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {Suspend::new(async move {
+                        measurements
+                            .await
+                            .map(|m| {
+                                m.into_iter()
+                                    .map(|m| {
+                                        view! {
+                                            <tr>
+                                                <td>{m.timestamp}</td>
+                                                <td>{m.temperature}</td>
+                                                <td>{m.humidity}</td>
+                                            </tr>
+                                        }
+                                    })
+                                    .collect_view()
+                            })
+                    })}
+                </tbody>
+            </table>
+        </Suspense>
     }
+}
+
+#[server]
+async fn load_measurements(range: TimeRange) -> Result<Vec<Measurement>, ServerFnError> {
+    use std::time::Duration;
+    use tokio::time;
+
+    time::sleep(Duration::from_secs(2)).await;
+
+    let measurements = (0..12)
+        .map(|i| Measurement {
+            timestamp: i,
+            temperature: i as f32,
+            humidity: i as f32,
+        })
+        .collect();
+
+    Ok(measurements)
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub enum TimeRange {
+    Day,
+    Month,
+    Year,
+}
+
+impl TimeRange {
+    fn seconds(&self) -> u64 {
+        match &self {
+            TimeRange::Day => 86_400,
+            // Both of these are debatable but accurate enough for us
+            TimeRange::Month => 30 * 86_400,
+            TimeRange::Year => 365 * 86_400,
+        }
+    }
+}
+
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+pub struct Measurement {
+    timestamp: u64,
+    temperature: f32,
+    humidity: f32,
 }
