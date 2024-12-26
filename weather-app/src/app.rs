@@ -1,4 +1,5 @@
 use leptos::prelude::*;
+use leptos_chartistry::{IntoInner, *};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
 use leptos_router::{
     components::{Route, Router, Routes},
@@ -60,35 +61,57 @@ fn Measurements() -> impl IntoView {
 
     view! {
         <Suspense fallback=move || view! { <p>"Loading ..."</p> }>
-            <table>
-                <thead>
-                    <tr>
-                        <th>"Date"</th>
-                        <th>"Temperature (°C)"</th>
-                        <th>"Relative humidity (%)"</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {Suspend::new(async move {
-                        measurements
-                            .await
-                            .map(|m| {
-                                m.into_iter()
-                                    .map(|m| {
-                                        view! {
-                                            <tr>
-                                                <td>{m.timestamp}</td>
-                                                <td>{m.temperature}</td>
-                                                <td>{m.humidity}</td>
-                                            </tr>
-                                        }
-                                    })
-                                    .collect_view()
-                            })
-                    })}
-                </tbody>
-            </table>
+        {Suspend::new(async move {
+            measurements
+                .await
+                .map(|m| {
+                    view! {
+                        <WeatherChart data=m.into() kind=MeasurementKind::Temperature />
+                    }
+                })
+        })}
         </Suspense>
+    }
+}
+
+enum MeasurementKind {
+    Temperature,
+    Humidity,
+}
+
+#[component]
+fn WeatherChart(data: Signal<Vec<Measurement>>, kind: MeasurementKind) -> impl IntoView {
+    // Lines are added to the series
+    let series = Series::new(|data: &Measurement| data.timestamp as f64).line(match kind {
+        MeasurementKind::Temperature => {
+            Line::new(|data: &Measurement| data.temperature as f64).with_name("Temperature")
+        }
+        MeasurementKind::Humidity => {
+            Line::new(|data: &Measurement| data.humidity as f64).with_name("Humidity")
+        }
+    });
+
+    view! {
+        <Chart
+            aspect_ratio=AspectRatio::from_outer_height(600.0, 1.2)
+            series=series
+            data=data
+
+            // Decorate our chart
+            top=RotatedLabel::middle("Measurements")
+            left=TickLabels::aligned_floats()
+            bottom=Legend::end()
+            inner=[
+                // Standard set of inner layout options
+                AxisMarker::left_edge().into_inner(),
+                AxisMarker::bottom_edge().into_inner(),
+                XGridLine::default().into_inner(),
+                YGridLine::default().into_inner(),
+                YGuideLine::over_mouse().into_inner(),
+                XGuideLine::over_data().into_inner(),
+            ]
+            tooltip=Tooltip::left_cursor().show_x_ticks(false)
+        />
     }
 }
 
