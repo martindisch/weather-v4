@@ -1,14 +1,11 @@
-# weather-v3
+# weather-v4-abandonware
 
-This is the fourth iteration of my simple weather station using an AM2302
-sensor, this time with a Leptos web app.
-
-The system has two parts:
-
-- [Base station](weather-station/README.md) with sensor, taking regular
-  measurements and uploading them to the backend whenever it has connectivity
-- [Backend and client](weather-app/README.md) for storing and interacting with
-  current and historical readings
+This was supposed to be the the fourth iteration of my simple weather station
+using an AM2302 sensor, this time with a Leptos web app. I stopped developing
+it after the Wasm build by `cargo leptos watch` in debug mode consumed enough
+memory to get OOM killed. Release mode worked, but drove already aggravating
+compile times into territory even I found infuriating. Rust compile times and
+frontend development just aren't a good fit.
 
 ## License
 
